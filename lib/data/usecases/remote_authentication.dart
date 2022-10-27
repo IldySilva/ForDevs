@@ -6,9 +6,9 @@ class RemoteAuthentication {
   final String url;
   RemoteAuthentication({required this.httpClient, required this.url});
 
-  Future<void> auth(AuthenticationParams params) async {
-    final body = RemoteAuthParams.fromEntity(params);
-    await httpClient.request(url: url, method: 'post', body: body.toMap());
+  Future<void> ?auth(AuthenticationParams params) async {
+    final body = RemoteAuthParams.fromEntity(params).toMap();
+   return  await httpClient.request(url: url, method: 'post', body: body);
   }
 }
 

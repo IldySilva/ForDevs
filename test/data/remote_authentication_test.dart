@@ -5,19 +5,15 @@ import 'package:fordevs/domain/usecases/usecase_authentication.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-
-
-
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
-  test("Should Call httpClient with correct URL", () async {
+  test("Should Call httpClient with correct Values ", () async {
     final httpClient = HttpClientSpy();
     final url = faker.internet.httpUrl();
     final sut = RemoteAuthentication(httpClient: httpClient, url: url);
-
-    await sut. auth( AuthenticationParams(email: "email", password: "secret"));
-
-
+    var body = AuthenticationParams(email: faker.internet.email(), password: faker.internet.password());
+    await sut.auth(body);
+    verify(httpClient.request(url: url, method: 'post', body: body.toMap()));
   });
 }
